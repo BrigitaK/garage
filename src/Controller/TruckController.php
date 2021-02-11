@@ -64,15 +64,23 @@ class TruckController extends AbstractController
      */
     public function store(Request $r, ValidatorInterface $validator): Response
     {
+        $submittedToken = $r->request->get('token');
+
+
+        if (!$this->isCsrfTokenValid('', $submittedToken)) {
+            $r->getSession()->getFlashBag()->add('errors', 'Blogas Tokenas CSRF');
+            return $this->redirectToRoute('truck_create');
+        } 
+
         $mechanic = $this->getDoctrine()
         ->getRepository(Mechanic::class)
-        ->find($r->request->get('truck_mechanic_id'));
+        ->find((int)$r->request->get('truck_mechanic_id'));
 
         $truck = New Truck;
         $truck->
         setMaker($r->request->get('truck_maker'))->
         setPlate($r->request->get('truck_plate'))->
-        setMakeYear($r->request->get('truck_make_year'))->
+        setMakeYear((int)$r->request->get('truck_make_year'))->
         setMechanicNotices($r->request->get('truck_mechanic_notices'))->
         setMechanic($mechanic);
 

@@ -20,21 +20,31 @@ class Truck
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Maker should not be blank.")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 255,
+     *      minMessage = "Maker must be at least {{ limit }} characters long.",
+     *      maxMessage = "Maker cannot be longer than {{ limit }} characters."
+     * )
      */
     private $maker;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(message="Plate should not be blank.")
      */
     private $plate;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Make_year should not be blank.")
      */
     private $make_year;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Mechanic_notices should not be blank.")
      */
     private $mechanic_notices;
 

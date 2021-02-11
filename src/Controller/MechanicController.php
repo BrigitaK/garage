@@ -60,6 +60,14 @@ class MechanicController extends AbstractController
      */
     public function store(Request $r, ValidatorInterface $validator): Response
     {
+        $submittedToken = $r->request->get('token');
+
+
+        if (!$this->isCsrfTokenValid('', $submittedToken)) {
+            $r->getSession()->getFlashBag()->add('errors', 'Blogas Tokenas CSRF');
+            return $this->redirectToRoute('mechanic_create');
+        } 
+        
         $mechanic= New Mechanic;
         $mechanic->
         setName($r->request->get('mechanic_name'))->

@@ -28,13 +28,19 @@
             <div class="count-t">
                 <span class="">{{truck.mechanic.name}} {{truck.mechanic.surname}}</span>
             </div>
+            <style>
+            .mobilebtn {padding-left:5px !important; padding-right:5px !important; background-color:f2f2f2; color:#000 !important;}
+            .mobilebtn i {color:#000 !important;}
+            </style>
             <div class="delete-btn">
                 <form action="{{ path('truck_delete', {id: truck.id}) }}" method="POST">
-                <button class="delete" type="submit">Delete</button>
+                <button class="delete desktopbtn" type="submit">Delete</button>
+                <button class="delete mobilebtn" type="submit"><i class="fa fa-trash"></i></button>
                 </form>
             </div>
             <div class="edit-btn">
-                <a  class="edit" href="{{ path('truck_edit', {id: truck.id}) }}">Edit</a>
+                <a class="edit desktopbtn" href="{{ path('truck_edit', {id: truck.id}) }}">Edit</a>
+                <a class="edit mobilebtn" href="{{ path('truck_edit', {id: truck.id}) }}"><i class="fa fa-edit"></i></a>
             </div>
         </div>
         

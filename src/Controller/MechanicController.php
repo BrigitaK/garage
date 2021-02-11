@@ -36,7 +36,9 @@ class MechanicController extends AbstractController
 
         return $this->render('mechanic/index.html.twig', [
             'mechanics' => $mechanics,
-            'sortBy' => $r->query->get('sort') ?? 'default'
+            'sortBy' => $r->query->get('sort') ?? 'default',
+            'sortBy' => $r->query->get('sort') ?? 'default',
+            'success' => $r->getSession()->getFlashBag()->get('success', [])
         ]);
     }
     /**
@@ -44,8 +46,13 @@ class MechanicController extends AbstractController
      */
     public function create(Request $r): Response
     {
+        $mechanic_name = $r->getSession()->getFlashBag()->get('mechanic_name', []);
+        $mechanic_surname = $r->getSession()->getFlashBag()->get('mechanic_surname', []);
+
         return $this->render('mechanic/create.html.twig', [
-            'errors' => $r->getSession()->getFlashBag()->get('errors', [])
+            'errors' => $r->getSession()->getFlashBag()->get('errors', []),
+            'mechanic_name' => $mechanic_name[0] ?? '',
+            'mechanic_surname' => $mechanic_surname[0] ?? ''
         ]);
     }
     /**
@@ -66,6 +73,9 @@ class MechanicController extends AbstractController
             foreach($errors as $error) {
                 $r->getSession()->getFlashBag()->add('errors', $error->getMessage());
             }
+            $r->getSession()->getFlashBag()->add('mechanic_name', $r->request->get('mechanic_name'));
+            $r->getSession()->getFlashBag()->add('mechanic_surname', $r->request->get('mechanic_surname'));
+
             return $this->redirectToRoute('mechanic_create');
         }
 
@@ -73,25 +83,32 @@ class MechanicController extends AbstractController
         $entityManager->persist($mechanic);
         $entityManager->flush();
 
+        $r->getSession()->getFlashBag()->add('success', 'Mechanic successfully added.');
+
         return $this->redirectToRoute('mechanic_index');
     }
     /**
      * @Route("/mechanic/edit/{id}", name="mechanic_edit", methods={"GET"})
      */
-    public function edit(int $id): Response
+    public function edit(int $id, Request $r): Response
     {
         $mechanic = $this->getDoctrine()
         ->getRepository(Mechanic::class)
         ->find($id);
+        $mechanic_name = $r->getSession()->getFlashBag()->get('mechanic_name', []);
+        $mechanic_surname = $r->getSession()->getFlashBag()->get('mechanic_surname',[]);
 
         return $this->render('mechanic/edit.html.twig', [
             'mechanic' => $mechanic,
+            'errors' => $r->getSession()->getFlashBag()->get('errors', []),
+            'mechanic_name' => $mechanic_name[0] ?? '',
+            'mechanic_surname' => $mechanic_surname[0] ?? ''
         ]);
     }
     /**
      * @Route("/mechanic/update/{id}", name="mechanic_update", methods={"POST"})
      */
-    public function update(Request $r, $id): Response
+    public function update(Request $r, $id, ValidatorInterface $validator): Response
     {
         $mechanic = $this->getDoctrine()
         ->getRepository(Mechanic::class)
@@ -101,9 +118,25 @@ class MechanicController extends AbstractController
         setName($r->request->get('mechanic_name'))->
         setSurname($r->request->get('mechanic_surname'));
 
+        $errors = $validator->validate($mechanic);
+
+
+        if (count($errors) > 0) {
+
+            foreach($errors as $error) {
+                $r->getSession()->getFlashBag()->add('errors', $error->getMessage());
+            }
+            $r->getSession()->getFlashBag()->add('mechanic_name', $r->request->get('mechanic_name'));
+            $r->getSession()->getFlashBag()->add('mechanic_surname', $r->request->get('mechanic_surname'));
+
+            return $this->redirectToRoute('mechanic_edit', ['id' => $mechanic->getId()]);
+        }
+
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($mechanic);
         $entityManager->flush();
+
+        $r->getSession()->getFlashBag()->add('success', 'Mechanic successfully edited.');
 
         return $this->redirectToRoute('mechanic_index');
     }

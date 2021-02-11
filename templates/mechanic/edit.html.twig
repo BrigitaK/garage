@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create new mechanic{% endblock %}
+{% block title %}Edit mechanic{% endblock %}
 
 {% block body %}
-    <h1 class="title">Create new mechanic</h1>
+    <h1 class="title">Edit mechanic</h1>
     <div class="list">
         <form action="{{path('mechanic_update', {id: mechanic.id})}}" method="POST">
             <div class="create-name">Name: <input class="input" type="text" name="mechanic_name" value="{{mechanic.name}}"></div>
              <div class="create-name">Name: <input class="input" type="text" name="mechanic_surname" value="{{mechanic.surname}}"></div>
             <div class="add-btn">
-                <button class="add" type="submit">Add new mechanic</button>
+                <button class="add" type="submit">Edit mechanic</button>
             </div>
         </form>
     <div>

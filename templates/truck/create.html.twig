@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create new truck{% endblock %}
+
+{% block body %}
+    <h1 class="title">Create new truck </h1>
+    <div class="list">
+        <form action="{{path('truck_store')}}" method="POST">
+            <div class="create-name">Maker:<input class="input" type="text" name="truck_maker"></div>
+            <div class="create-name">Plate:<input class="input" type="text" name="truck_plate"></div>
+            <div class="create-name">Make year:<input class="input" type="text" name="truck_make_year"></div>
+            <select class="select" name="truck_mechanic_id">
+                {% for mechanic in mechanics %}
+                <option value="{{mechanic.id}}">{{mechanic.name}} {{mechanic.surname}}</option>
+                {% endfor %}
+            </select>
+            <div class="create-name-about">Mechanic notices:<textarea class="input" name="truck_mechanic_notices"></textarea></div>
+            <div class="add-btn">
+                <button class="add" type="submit">Add new truck</button>
+            </div>
+            {# <input type="hidden" name="token" value="{{ csrf_token('') }}"/> #}
+        </form>
+    </div>
+{% endblock %}

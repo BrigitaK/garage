@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit new truck{% endblock %}
+
+{% block body %}
+    <h1 class="title">Edit new truck</h1>
+    <div class="list">
+        <form action="{{path('truck_update', {id: truck.id})}}" method="POST">
+            <div class="create-name">Maker:<input class="input" type="text" name="truck_maker" value="{{truck.maker}}"></div>
+            <div class="create-name">Plate:<input class="input" type="text" name="truck_plate" value="{{truck.plate}}"></div>
+            <div class="create-name">Make year:<input class="input" type="text" name="truck_make_year" value="{{truck.makeYear}}"></div>
+            <div class="create-name">Machanic notices:<textarea class="input" name="truck_mechanic_notices">{{truck.mechanicNotices}}</textarea></div>
+             <select class="select" name="truck_mechanic_id">
+            {% for mechanic in mechanics %}
+            <option value="{{mechanic.id}}" {% if mechanic.id == truck.mechanicId %} selected {% endif %}>
+            {{mechanic.name}} {{mechanic.surname}}</option>
+            {% endfor %}
+            </select>
+            <div class="add-btn">
+                <button class="add" type="submit">Edit truck</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

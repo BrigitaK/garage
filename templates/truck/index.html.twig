@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trucks List{% endblock %}
+
+{% block body %}
+
+    <h1 class="title">Trucks</h1>
+    {# <div class="sort-box">
+        <div class="title2 title-filter">Filter by:</div>
+        <form action="{{ path('truck_index')}}" method="GET">
+            <select class="select-filter" name="status_id">
+            <option value="0">View All</option>
+                {% for status in statuss %}
+                <option value="{{status.id}}" {% if statusId == status.id %} selected {% endif %}>{{status.title}}</option>
+                {% endfor %}
+            </select>
+            <div class="sort-btn">
+                <button class="edit" type="submit">Filter</button>
+            </div>
+        </form>
+        <div class="clear-btn">
+            <a class="delete" href="{{ path('truck_index')}}">Reset</a>
+        </div>
+    </div> #}
+    {% for truck in trucks %}
+        <div class="list-p">
+            <div class="name-prop"><span class="name-prop2">{{truck.maker}} </span></div>
+            {# <div class="count-t">
+                <span class="">{{truck.mechanic.name}}</span>
+            </div> #}
+            <div class="delete-btn">
+                <form action="{{ path('truck_delete', {id: truck.id}) }}" method="POST">
+                <button class="delete" type="submit">Delete</button>
+                </form>
+            </div>
+            <div class="edit-btn">
+                <a  class="edit" href="{{ path('truck_edit', {id: truck.id}) }}">Edit</a>
+            </div>
+        </div>
+        
+    {% endfor %}
+{% endblock %}

@@ -24,7 +24,7 @@
             {# <input type="hidden" name="token" value="{{ csrf_token('') }}"/> #}
         </form>
         <div class="clear-btn">
-            <a class="delete2" action="{{ path('mechanic_index')}}">Reset</a>
+            <a class="delete2" href="{{ path('mechanic_index')}}">Reset</a>
         </div>
     </div>
     {% for mechanic in mechanics %}

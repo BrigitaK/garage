@@ -14,14 +14,24 @@ class TruckController extends AbstractController
     /**
      * @Route("/truck", name="truck_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(Request $r): Response
     {
-        $trucks = $this->getDoctrine()
-        ->getRepository(Truck::class)
+        $mechanics = $this->getDoctrine()
+        ->getRepository(Mechanic::class)
         ->findAll();
 
+        $trucks = $this->getDoctrine()
+        ->getRepository(Truck::class);
+        if(null !== $r->query->get('mechanic_id')){
+            $trucks = $trucks->findBy(['mechanic_id' => $r->query->get('mechanic_id')]);
+        }
+        else {
+            $trucks = $trucks->findAll();
+        }
         return $this->render('truck/index.html.twig', [
             'trucks' => $trucks,
+            'mechanics' => $mechanics,
+            'mechanicId' => $r->query->get('mechanic_id') ?? 0
         ]);
     }
     /**

@@ -5,13 +5,13 @@
 {% block body %}
 
     <h1 class="title">Trucks</h1>
-    {# <div class="sort-box">
+    <div class="sort-box">
         <div class="title2 title-filter">Filter by:</div>
         <form action="{{ path('truck_index')}}" method="GET">
-            <select class="select-filter" name="status_id">
+            <select class="select-filter" name="mechanic_id">
             <option value="0">View All</option>
-                {% for status in statuss %}
-                <option value="{{status.id}}" {% if statusId == status.id %} selected {% endif %}>{{status.title}}</option>
+                {% for mechanic in mechanics %}
+                    <option value="{{mechanic.id}}" {% if mechanicId == mechanic.id %} selected {% endif %}>{{mechanic.name}} {{mechanic.surname}}</option>
                 {% endfor %}
             </select>
             <div class="sort-btn">
@@ -21,7 +21,7 @@
         <div class="clear-btn">
             <a class="delete" href="{{ path('truck_index')}}">Reset</a>
         </div>
-    </div> #}
+    </div>
     {% for truck in trucks %}
         <div class="list-p">
             <div class="name-prop"><span class="name-prop2">{{truck.maker}}</span></div>

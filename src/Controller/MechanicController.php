@@ -80,4 +80,23 @@ class MechanicController extends AbstractController
 
         return $this->redirectToRoute('mechanic_index');
     }
+    /**
+     * @Route("/mechanic/delete/{id}", name="mechanic_delete", methods={"POST"})
+     */
+    public function delete($id): Response
+    {
+        $mechanic = $this->getDoctrine()
+        ->getRepository(Mechanic::class)
+        ->find($id);
+
+        // if ($mechanic->getOutfits()->count() > 0) {
+        //     return new Response('Šio kūrėjo ištrinti negalima, nes turi gaminių.');
+        // }
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($mechanic);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('mechanic_index');
+    }
 }

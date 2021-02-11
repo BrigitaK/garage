@@ -33,16 +33,16 @@
                             <div class="count-list"><span class="dot"></span>{{note.title}}</div>
                     {% endfor %}
                 </div> #}
-            {# <div class="delete-btn">
+            <div class="delete-btn">
             <style>
             .mobilebtn {padding-left:5px !important; padding-right:5px !important; background-color:f2f2f2; color:#000 !important;}
             .mobilebtn i {color:#000 !important;}
-            </style> #}
-                {# <form action="{{ path('mechanic_delete', {id: mechanic.id}) }}" method="POST">
+            </style>
+                <form action="{{ path('mechanic_delete', {id: mechanic.id}) }}" method="POST">
                 <button class="delete desktopbtn" type="submit">Delete</button>
                 <button class="delete mobilebtn" type="submit"><i class="fa fa-trash"></i></button>
                 </form>    
-            </div>#}
+            </div>
             <div class="edit-btn">
                 <a class="edit desktopbtn" href="{{ path('mechanic_edit', {id: mechanic.id}) }}">Edit</a>
                 <a class="edit mobilebtn" href="{{ path('mechanic_edit', {id: mechanic.id}) }}"><i class="fa fa-edit"></i></a>

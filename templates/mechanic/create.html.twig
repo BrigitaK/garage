@@ -5,8 +5,9 @@
 {% block body %}
     <h1 class="title">Create new mechanic</h1>
     <div class="list">
-        <form action="" method="POST">
-            <div class="create-name">Title: <input class="input" type="text" name="mechanic_title"></div>
+    <form action="{{path('mechanic_store')}}" method="POST">
+            <div class="create-name">Name : <input class="input" type="text" name="mechanic_name"></div>
+                <div class="create-name">Surname : <input class="input" type="text" name="mechanic_surname"></div>
             <div class="add-btn">
                 <button class="add" type="submit">Add new mechanic</button>
             </div>

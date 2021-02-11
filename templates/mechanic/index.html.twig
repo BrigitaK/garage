@@ -6,25 +6,27 @@
 
     <h1 class="title">Mechanics</h1>
 
-    {# <div class="sort-box">
+    <div class="sort-box">
         <div class="title2 title-sort">Order by:</div>
-            <form action="{{ path('mechanic_index')}}" method="GET">
-                <div style="background-color:#f4f4f4; padding-right:5px; float: left; font-size: 16px; border-radius: 3px;">
-                    <select class="select-sort" name="sort">
-                        <option value="default">Default</option>
-                        <option value="title_az" {% if sortBy == 'title_az' %} selected {% endif %}>Title</option>
-                        <option value="title_za" {% if sortBy == 'title_za' %} selected {% endif %}>Title reverse</option>
-                    </select>
-                </div>
-                <div class="sort-btn" >
-                    <button class="sort" type="submit">Sort</button>
-                </div>
-            <input type="hidden" name="token" value="{{ csrf_token('') }}"/>
-            </form>
-            <div class="clear-btn">
-                <a class="delete2" action="{{ path('mechanic_index')}}">Reset</a>
+        <form action="{{ path('mechanic_index')}}" method="GET">
+            <div style="background-color:#f4f4f4; padding-right:5px; float: left; font-size: 16px; border-radius: 3px;">
+                <select class="select-sort" name="sort">
+                    <option value="default">default</option>
+                    <option value="name_az" {% if sortBy == 'name_az' %} selected {% endif %}>name</option>
+                    <option value="name_za" {% if sortBy == 'name_za' %} selected {% endif %}>name reverse</option>
+                    <option value="surname_az" {% if sortBy == 'surname_az' %} selected {% endif %}>surname</option>
+                    <option value="surname_za" {% if sortBy == 'surname_za' %} selected {% endif %}>surname reverse</option>
+                </select>
             </div>
-    </div> #}
+            <div class="sort-btn" >
+                <button class="sort" type="submit">Sort</button>
+            </div>
+            {# <input type="hidden" name="token" value="{{ csrf_token('') }}"/> #}
+        </form>
+        <div class="clear-btn">
+            <a class="delete2" action="{{ path('mechanic_index')}}">Reset</a>
+        </div>
+    </div>
     {% for mechanic in mechanics %}
         <div class="list-p">
             <div class="name-surname">{{mechanic.name}} {{mechanic.surname}}</div>

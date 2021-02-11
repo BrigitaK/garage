@@ -42,6 +42,11 @@ class Truck
      */
     private $mechanic_id;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Mechanic::class, inversedBy="trucks")
+     */
+    private $mechanic;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,18 @@ class Truck
     public function setMechanicId(int $mechanic_id): self
     {
         $this->mechanic_id = $mechanic_id;
+
+        return $this;
+    }
+
+    public function getMechanic(): ?Mechanic
+    {
+        return $this->mechanic;
+    }
+
+    public function setMechanic(?Mechanic $mechanic): self
+    {
+        $this->mechanic = $mechanic;
 
         return $this;
     }

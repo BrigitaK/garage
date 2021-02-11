@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Entity\Mechanic;
 
 class MechanicController extends AbstractController
@@ -41,21 +42,32 @@ class MechanicController extends AbstractController
     /**
      * @Route("/mechanic/create", name="mechanic_create", methods={"GET"})
      */
-    public function create(): Response
+    public function create(Request $r): Response
     {
         return $this->render('mechanic/create.html.twig', [
+            'errors' => $r->getSession()->getFlashBag()->get('errors', [])
         ]);
     }
     /**
      * @Route("/mechanic/store", name="mechanic_store", methods={"POST"})
      */
-    public function store(Request $r): Response
+    public function store(Request $r, ValidatorInterface $validator): Response
     {
         $mechanic= New Mechanic;
         $mechanic->
         setName($r->request->get('mechanic_name'))->
         setSurname($r->request->get('mechanic_surname'));
 
+        $errors = $validator->validate($mechanic);
+
+
+        if (count($errors) > 0) {
+
+            foreach($errors as $error) {
+                $r->getSession()->getFlashBag()->add('errors', $error->getMessage());
+            }
+            return $this->redirectToRoute('mechanic_create');
+        }
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($mechanic);

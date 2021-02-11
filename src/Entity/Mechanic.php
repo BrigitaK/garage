@@ -6,6 +6,7 @@ use App\Repository\MechanicRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MechanicRepository::class)
@@ -21,11 +22,25 @@ class Mechanic
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank(message="Name field can not be empty!")
+     * * @Assert\Length(
+     *      min = 2,
+     *      max = 64,
+     *      minMessage = "The name is too short. Minimum length is {{ limit }} characters",
+     *      maxMessage = "The name cannot be longer than {{ limit }} characters"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank(message="Surname field can not be empty!")
+     * * @Assert\Length(
+     *      min = 2,
+     *      max = 64,
+     *      minMessage = "The surname is too short. Minimum length is {{ limit }} characters",
+     *      maxMessage = "The surname cannot be longer than {{ limit }} characters"
+     * )
      */
     private $surname;
 

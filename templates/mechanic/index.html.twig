@@ -42,11 +42,11 @@
                 <button class="delete desktopbtn" type="submit">Delete</button>
                 <button class="delete mobilebtn" type="submit"><i class="fa fa-trash"></i></button>
                 </form>    
-            </div>
+            </div>#}
             <div class="edit-btn">
-                <a class="edit desktopbtn" href="{{ path('mechanic_edit', {id: mechanic.id}) }}">Edit mechanic</a>
+                <a class="edit desktopbtn" href="{{ path('mechanic_edit', {id: mechanic.id}) }}">Edit</a>
                 <a class="edit mobilebtn" href="{{ path('mechanic_edit', {id: mechanic.id}) }}"><i class="fa fa-edit"></i></a>
-            </div> #}
+            </div>
         </div>
     {% endfor %}
 {% endblock %}

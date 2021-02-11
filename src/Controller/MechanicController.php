@@ -15,8 +15,12 @@ class MechanicController extends AbstractController
      */
     public function index(): Response
     {
+        $mechanics = $this->getDoctrine()
+        ->getRepository(Mechanic::class)
+        ->findAll();
+
         return $this->render('mechanic/index.html.twig', [
-            'controller_name' => 'MechanicController',
+            'mechanics' => $mechanics,
         ]);
     }
     /**
@@ -37,6 +41,38 @@ class MechanicController extends AbstractController
         setName($r->request->get('mechanic_name'))->
         setSurname($r->request->get('mechanic_surname'));
 
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($mechanic);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('mechanic_index');
+    }
+    /**
+     * @Route("/mechanic/edit/{id}", name="mechanic_edit", methods={"GET"})
+     */
+    public function edit(int $id): Response
+    {
+        $mechanic = $this->getDoctrine()
+        ->getRepository(Mechanic::class)
+        ->find($id);
+
+        return $this->render('mechanic/edit.html.twig', [
+            'mechanic' => $mechanic,
+        ]);
+    }
+    /**
+     * @Route("/mechanic/update/{id}", name="mechanic_update", methods={"POST"})
+     */
+    public function update(Request $r, $id): Response
+    {
+        $mechanic = $this->getDoctrine()
+        ->getRepository(Mechanic::class)
+        ->find($id);
+
+        $mechanic->
+        setName($r->request->get('mechanic_name'))->
+        setSurname($r->request->get('mechanic_surname'));
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($mechanic);

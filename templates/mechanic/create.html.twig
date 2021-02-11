@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create new mechanic{% endblock %}
+
+{% block body %}
+    <h1 class="title">Create new mechanic</h1>
+    <div class="list">
+        <form action="" method="POST">
+            <div class="create-name">Title: <input class="input" type="text" name="mechanic_title"></div>
+            <div class="add-btn">
+                <button class="add" type="submit">Add new mechanic</button>
+            </div>
+            {# <input type="hidden" name="token" value="{{ csrf_token('') }}"/> #}
+        </form>
+    <div>
+{% endblock %}

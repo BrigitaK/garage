@@ -42,9 +42,9 @@ class TruckController extends AbstractController
      */
     public function store(Request $r): Response
     {
-        // $master = $this->getDoctrine()
-        // ->getRepository(Master::class)
-        // ->find($r->request->get('truck_master_id'));
+        $mechanic = $this->getDoctrine()
+        ->getRepository(Mechanic::class)
+        ->find($r->request->get('truck_mechanic_id'));
 
         $truck = New Truck;
         $truck->
@@ -52,7 +52,7 @@ class TruckController extends AbstractController
         setPlate($r->request->get('truck_plate'))->
         setMakeYear($r->request->get('truck_make_year'))->
         setMechanicNotices($r->request->get('truck_mechanic_notices'))->
-        setMechanicId($r->request->get('truck_mechanic_id'));
+        setMechanic($mechanic);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($truck);
@@ -87,16 +87,16 @@ class TruckController extends AbstractController
         ->getRepository(Truck::class)
         ->find($id);
 
-        // $mechanic = $this->getDoctrine()
-        //  ->getRepository(Mechanic::class)
-        //  ->find($r->request->get('truck_master_id'));
+        $mechanic = $this->getDoctrine()
+        ->getRepository(Mechanic::class)
+        ->find($r->request->get('truck_mechanic_id'));
 
         $truck->
         setMaker($r->request->get('truck_maker'))->
         setPlate($r->request->get('truck_plate'))->
         setMakeYear($r->request->get('truck_make_year'))->
         setMechanicNotices($r->request->get('truck_mechanic_notices'))->
-        setMechanicId($r->request->get('truck_mechanic_id'));
+        setMechanic($mechanic);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($truck);

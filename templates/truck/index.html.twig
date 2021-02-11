@@ -24,10 +24,10 @@
     </div> #}
     {% for truck in trucks %}
         <div class="list-p">
-            <div class="name-prop"><span class="name-prop2">{{truck.maker}} </span></div>
-            {# <div class="count-t">
-                <span class="">{{truck.mechanic.name}}</span>
-            </div> #}
+            <div class="name-prop"><span class="name-prop2">{{truck.maker}}</span></div>
+            <div class="count-t">
+                <span class="">{{truck.mechanic.name}} {{truck.mechanic.surname}}</span>
+            </div>
             <div class="delete-btn">
                 <form action="{{ path('truck_delete', {id: truck.id}) }}" method="POST">
                 <button class="delete" type="submit">Delete</button>

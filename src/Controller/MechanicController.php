@@ -97,6 +97,10 @@ class MechanicController extends AbstractController
         $entityManager->remove($mechanic);
         $entityManager->flush();
 
+        if ($mechanic->getTrucks()->count() > 0) {
+            return new Response('Šio mechaniko ištrinti negalima, nes turi gaminių.');
+        }
+
         return $this->redirectToRoute('mechanic_index');
     }
 }

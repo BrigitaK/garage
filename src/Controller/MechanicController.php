@@ -95,7 +95,7 @@ class MechanicController extends AbstractController
         $entityManager->persist($mechanic);
         $entityManager->flush();
 
-        $r->getSession()->getFlashBag()->add('success', 'Mechanic successfully added.');
+        $r->getSession()->getFlashBag()->add('success', 'Mechanic was successfully added.');
 
         return $this->redirectToRoute('mechanic_index');
     }
@@ -148,26 +148,31 @@ class MechanicController extends AbstractController
         $entityManager->persist($mechanic);
         $entityManager->flush();
 
-        $r->getSession()->getFlashBag()->add('success', 'Mechanic successfully edited.');
+        $r->getSession()->getFlashBag()->add('success', 'Mechanic '. $mechanic->getName() .' '. $mechanic->getSurname().' was successfully modified.');
 
         return $this->redirectToRoute('mechanic_index');
     }
     /**
      * @Route("/mechanic/delete/{id}", name="mechanic_delete", methods={"POST"})
      */
-    public function delete($id): Response
+    public function delete(ValidatorInterface $validator, Request $r, $id): Response
     {
         $mechanic = $this->getDoctrine()
         ->getRepository(Mechanic::class)
         ->find($id);
 
-        if ($mechanic->getTrucks()->count() > 0) {
-            return new Response('Šio mechaniko ištrinti negalima, nes turi gaminių.');
+        $errors = $validator->validate($mechanic);
+
+        if ($mechanic->getTrucks()->count() > 0) { 
+        $r->getSession()->getFlashBag()->add('errors', 'Trinti negalima.');
+        return $this->redirectToRoute('mechanic_index');
         }
-        
+
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($mechanic);
         $entityManager->flush();
+
+        $r->getSession()->getFlashBag()->add('success', 'Mechanic successfully deleted.');
 
         return $this->redirectToRoute('mechanic_index');
     }

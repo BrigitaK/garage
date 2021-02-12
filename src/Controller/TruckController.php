@@ -104,6 +104,10 @@ class TruckController extends AbstractController
             return $this->redirectToRoute('truck_create');
         }
 
+        if(null === $mechanic) {
+            return $this->redirectToRoute('mechanic_create');
+        }
+
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($truck);
         $entityManager->flush();
@@ -172,6 +176,9 @@ class TruckController extends AbstractController
 
             return $this->redirectToRoute('truck_edit');
         }
+        if(null === $mechanic) {
+            return $this->redirectToRoute('mechanic_edit');
+        }
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($truck);
@@ -185,19 +192,17 @@ class TruckController extends AbstractController
       /**
      * @Route("/truck/delete/{id}", name="truck_delete", methods={"POST"})
      */
-    public function delete($id): Response
+    public function delete($id, Request $r): Response
     {
         $truck = $this->getDoctrine()
         ->getRepository(Truck::class)
         ->find($id);
 
-        if ($truck->getMechanics()->count() > 0) {
-            return new Response('Šio truck ištrinti negalima.');
-        }
-
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($truck);
         $entityManager->flush();
+
+        $r->getSession()->getFlashBag()->add('success', 'Truck successfully deleted.');
 
         //grazinu redirect
         return $this->redirectToRoute('truck_index');

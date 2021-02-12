@@ -16,6 +16,8 @@ class MechanicController extends AbstractController
      */
     public function index(Request $r): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $mechanics = $this->getDoctrine()
         ->getRepository(Mechanic::class);
         if('name_az' == $r->query->get('sort')) {
@@ -46,6 +48,8 @@ class MechanicController extends AbstractController
      */
     public function create(Request $r): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $mechanic_name = $r->getSession()->getFlashBag()->get('mechanic_name', []);
         $mechanic_surname = $r->getSession()->getFlashBag()->get('mechanic_surname', []);
 
@@ -157,17 +161,13 @@ class MechanicController extends AbstractController
         ->getRepository(Mechanic::class)
         ->find($id);
 
-        // if ($mechanic->getOutfits()->count() > 0) {
-        //     return new Response('Šio kūrėjo ištrinti negalima, nes turi gaminių.');
-        // }
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($mechanic);
-        $entityManager->flush();
-
         if ($mechanic->getTrucks()->count() > 0) {
             return new Response('Šio mechaniko ištrinti negalima, nes turi gaminių.');
         }
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($mechanic);
+        $entityManager->flush();
 
         return $this->redirectToRoute('mechanic_index');
     }

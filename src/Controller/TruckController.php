@@ -17,6 +17,8 @@ class TruckController extends AbstractController
      */
     public function index(Request $r): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY'); 
+
         $mechanics = $this->getDoctrine()
         ->getRepository(Mechanic::class)
         ->findBy([],['name' => 'asc','surname' => 'asc']);
@@ -41,6 +43,8 @@ class TruckController extends AbstractController
      */
     public function create(Request $r): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $truck_maker = $r->getSession()->getFlashBag()->get('truck_maker', []);
         $truck_plate = $r->getSession()->getFlashBag()->get('truck_plate', []);
         $truck_make_year = $r->getSession()->getFlashBag()->get('truck_make_year', []);
@@ -186,6 +190,10 @@ class TruckController extends AbstractController
         $truck = $this->getDoctrine()
         ->getRepository(Truck::class)
         ->find($id);
+
+        if ($truck->getMechanics()->count() > 0) {
+            return new Response('Šio truck ištrinti negalima.');
+        }
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($truck);

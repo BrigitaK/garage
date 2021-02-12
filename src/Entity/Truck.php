@@ -38,7 +38,12 @@ class Truck
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\NotBlank(message="Make_year should not be blank.")
+     * @Assert\NotBlank(message="Year should not be blank.")
+     * @Assert\Positive(message="Year field cannot have zero or negative amount.")
+     * @Assert\Type(
+     *     type="integer",
+     *     message="The value {{ value }} is not a valid {{ type }}."
+     * )
      */
     private $make_year;
 

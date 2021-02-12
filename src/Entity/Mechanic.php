@@ -29,6 +29,15 @@ class Mechanic
      *      minMessage = "The name is too short. Minimum length is {{ limit }} characters",
      *      maxMessage = "The name cannot be longer than {{ limit }} characters"
      * )
+      * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Your name cannot contain a number"
+     * )
+     * * @Assert\Regex(
+     *     pattern     = "/^[a-z]+$/i",
+     *     htmlPattern = "^[a-zA-Z]+$"
+     * )
      */
     private $name;
 
@@ -40,6 +49,15 @@ class Mechanic
      *      max = 64,
      *      minMessage = "The surname is too short. Minimum length is {{ limit }} characters",
      *      maxMessage = "The surname cannot be longer than {{ limit }} characters"
+     * )
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Your surname cannot contain a number"
+     * )
+     * * @Assert\Regex(
+     *     pattern     = "/^[a-z]+$/i",
+     *     htmlPattern = "^[a-zA-Z]+$"
      * )
      */
     private $surname;
